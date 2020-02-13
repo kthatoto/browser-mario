@@ -3,11 +3,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   computed: {
+    ...mapGetters({
+      player: 'getPlayer'
+    }),
     playerStyle () {
       return {
-        bottom: 0
+        bottom: this.player.position.current.y + 'px',
+        width: this.player.size.width + 'px',
+        height: this.player.size.height + 'px',
+        left: `calc(50% - ${this.player.size.width}px / 2)`
       }
     }
   }
@@ -16,8 +24,6 @@ export default {
 
 <style lang="stylus" scoped>
 .player
-  width: 30px
-  height: 30px
   position: absolute
   z-index: 1
   background-color: black
