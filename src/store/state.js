@@ -1,6 +1,5 @@
 import constants from '@/constants'
 
-console.log(123)
 export default {
   player: {
     status: {

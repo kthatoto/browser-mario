@@ -1,9 +1,12 @@
+import movePlayer from '@/logics/movePlayer'
+
 export default {
 
   // param(x): Integer
   // param(y): Integer
-  movePlayer ({ commit }, { x, y }) {
-    commit('MOVE_PLAYER', { x, y })
+  movePlayer ({ commit, state }, { x, y }) {
+    const movement = movePlayer(Object.assign({}, state), { x, y })
+    commit('MOVE_PLAYER', movement)
   },
   forceMovePlayer ({ commit }, { x, y }) {
     commit('FORCE_MOVE_PLAYER', { x, y })

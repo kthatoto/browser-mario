@@ -1,6 +1,9 @@
 <template lang="pug">
 .game
   Player
+  .player__position
+    p x: {{ player.position.current.x }}
+    p y: {{ player.position.current.y }}
   .game__objects
     .game__block(v-for="(block, i) in blocks" :key="'block:' + i" :is="block.component" v-bind="block.data" :offsetX="0")
 </template>
@@ -49,6 +52,12 @@ export default {
         case 'ArrowRight':
           this.$store.dispatch('movePlayer', { x: +5, y: 0 })
           break
+        case 'ArrowDown':
+          this.$store.dispatch('movePlayer', { x: 0, y: -5 })
+          break
+        case 'ArrowUp':
+          this.$store.dispatch('movePlayer', { x: 0, y: +5 })
+          break
         case ' ':
           this.$store.dispatch('startPlayerJump')
           break
@@ -63,4 +72,9 @@ export default {
 
 <style lang="stylus" scoped>
 //.game
+.player
+  &__position
+    position: absolute
+    top: 5px
+    right: 5px
 </style>
