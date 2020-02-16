@@ -40,35 +40,36 @@ export default (state, { x, y }) => {
     const horizontalColliding = horizontalDistance < horizontalCollisionDistance
     const verticalColliding = verticalDistance < verticalCollisionDistance
     if (horizontalColliding && verticalColliding) {
-      const beforeCollidingSides = {
+      const collidingSides = {
         left: objectEdgesPosition.rightX <= currentEdgesPosition.leftX,
         right: currentEdgesPosition.rightX <= objectEdgesPosition.leftX,
         top: currentEdgesPosition.topY <= objectEdgesPosition.bottomY,
         bottom: objectEdgesPosition.topY <= currentEdgesPosition.bottomY
       }
-      if (!beforeCollidingSides.right && !beforeCollidingSides.left && !beforeCollidingSides.bottom && !beforeCollidingSides.top) {
+      if (!collidingSides.right && !collidingSides.left && !collidingSides.bottom && !collidingSides.top) {
         const horizontalCollidingLength = ((playerSize.width + objectSize.width) / 2) - horizontalDistance
         const verticalCollidingLength = ((playerSize.height + objectSize.height) / 2) - verticalDistance
         if (horizontalCollidingLength <= verticalCollidingLength) {
           if (currentPosition.x <= objectPosition.x) {
-            beforeCollidingSides.left = true
+            collidingSides.left = true
           } else {
-            beforeCollidingSides.right = true
+            collidingSides.right = true
           }
         } else {
           if (currentPosition.y <= objectPosition.y) {
-            beforeCollidingSides.bottom = true
+            collidingSides.bottom = true
           } else {
-            beforeCollidingSides.top = true
+            collidingSides.top = true
           }
         }
       }
-      currentSidesRelativeToCollidingObjectArray.push(beforeCollidingSides)
+      currentSidesRelativeToCollidingObjectArray.push(collidingSides)
       return true
     }
     return false
   })
 
+  let land = false
   if (collidingObjects.length > 0) {
     collidingObjects.forEach((collidingObject, i) => {
       const objectPosition = {
@@ -93,13 +94,16 @@ export default (state, { x, y }) => {
       if (currentSidesRelativeToCollidingObject.top) {
         nextPosition.y = objectEdgesPosition.bottomY - playerSize.height
       } else if (currentSidesRelativeToCollidingObject.bottom) {
+        land = true
         nextPosition.y = objectEdgesPosition.topY
       }
     })
   }
+  if (nextPosition.y <= 0) land = true
 
   return {
     x: nextPosition.x - currentPosition.x,
-    y: nextPosition.y - currentPosition.y
+    y: nextPosition.y - currentPosition.y,
+    land
   }
 }

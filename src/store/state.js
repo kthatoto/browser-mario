@@ -5,8 +5,8 @@ export default {
     status: {
       alive: true,
       dead: false,
-      moving: false,
       floating: false,
+      jumping: false,
       direction: 'right'
     },
     size: {

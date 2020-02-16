@@ -1,10 +1,10 @@
 <template lang="pug">
 .game
   Player
-  .player__position
+  .debugconsole
     p x: {{ player.position.x }}
     p y: {{ player.position.y }}
-    p(v-for="key in pressedKeys") {{ key }}
+    p jumpStatus: {{ player.jumpStatus }}
   .game__objects
     .game__block(v-for="(block, i) in blocks" :key="'block:' + i" :is="block.component" v-bind="block.data" :offsetX="0")
 </template>
@@ -54,9 +54,10 @@ export default {
     },
     draw () {
       this.handleKey()
-      const movement = { x: 0, y: -2 }
+      const movement = { x: 0, y: -5 }
       if (this.player.status.floating) {
         this.$store.dispatch('decrementPlayerJump')
+        movement.y += Math.max(this.player.jumpStatus.power, 0)
       }
       this.$store.dispatch('movePlayer', movement)
     }
@@ -66,9 +67,13 @@ export default {
 
 <style lang="stylus" scoped>
 //.game
-.player
-  &__position
-    position: absolute
-    top: 5px
-    right: 5px
+.debugconsole
+  position: absolute
+  top: 5px
+  right: 5px
+  width: 100px
+  background-color: rgba(0, 0, 0, .7)
+  color: white
+  padding: 5px
+  font-size: 10px
 </style>
