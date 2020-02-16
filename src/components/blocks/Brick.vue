@@ -19,7 +19,7 @@ export default {
       player: 'getPlayer'
     }),
     style () {
-      const left = this.positionX + this.offsetX - this.player.position.current.x
+      const left = this.positionX + this.offsetX - this.player.position.x
       return Object.assign({
         left: `calc(50% + ${left}px)`,
         bottom: `${this.positionY}px`,

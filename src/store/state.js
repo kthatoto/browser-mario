@@ -14,18 +14,12 @@ export default {
       width: constants.GRID_LENGTH
     },
     position: {
-      current: {
-        y: 30,
-        x: 400
-      },
-      previous: {
-        y: 30,
-        x: 400
-      }
+      y: 30,
+      x: 400
     },
     jumpStatus: {
       power: 0,
-      verocity: 0
+      timer: 0
     },
     events: []
   },
@@ -36,6 +30,16 @@ export default {
         data: {
           positionX: 200,
           positionY: 30,
+          width: constants.GRID_LENGTH,
+          height: constants.GRID_LENGTH,
+          styles: {}
+        }
+      },
+      {
+        component: 'Brick',
+        data: {
+          positionX: 320,
+          positionY: 60,
           width: constants.GRID_LENGTH,
           height: constants.GRID_LENGTH,
           styles: {}

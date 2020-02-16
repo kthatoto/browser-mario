@@ -1,5 +1,5 @@
 export default (state, { x, y }) => {
-  const currentPosition = Object.assign({}, state.player.position.current)
+  const currentPosition = Object.assign({}, state.player.position)
   const nextPosition = { x: currentPosition.x + x, y: currentPosition.y + y }
   const playerSize = Object.assign({}, state.player.size)
   const currentEdgesPosition = {
@@ -40,30 +40,30 @@ export default (state, { x, y }) => {
     const horizontalColliding = horizontalDistance < horizontalCollisionDistance
     const verticalColliding = verticalDistance < verticalCollisionDistance
     if (horizontalColliding && verticalColliding) {
-      const sides = {
-        right: objectEdgesPosition.rightX <= currentEdgesPosition.leftX,
-        left: currentEdgesPosition.rightX <= objectEdgesPosition.leftX,
-        bottom: currentEdgesPosition.topY <= objectEdgesPosition.bottomY,
-        top: objectEdgesPosition.topY <= currentEdgesPosition.bottomY
+      const beforeCollidingSides = {
+        left: objectEdgesPosition.rightX <= currentEdgesPosition.leftX,
+        right: currentEdgesPosition.rightX <= objectEdgesPosition.leftX,
+        top: currentEdgesPosition.topY <= objectEdgesPosition.bottomY,
+        bottom: objectEdgesPosition.topY <= currentEdgesPosition.bottomY
       }
-      if (!sides.right && !sides.left && !sides.bottom && !sides.top) {
+      if (!beforeCollidingSides.right && !beforeCollidingSides.left && !beforeCollidingSides.bottom && !beforeCollidingSides.top) {
         const horizontalCollidingLength = ((playerSize.width + objectSize.width) / 2) - horizontalDistance
         const verticalCollidingLength = ((playerSize.height + objectSize.height) / 2) - verticalDistance
         if (horizontalCollidingLength <= verticalCollidingLength) {
           if (currentPosition.x <= objectPosition.x) {
-            sides.left = true
+            beforeCollidingSides.left = true
           } else {
-            sides.right = true
+            beforeCollidingSides.right = true
           }
         } else {
           if (currentPosition.y <= objectPosition.y) {
-            sides.bottom = true
+            beforeCollidingSides.bottom = true
           } else {
-            sides.top = true
+            beforeCollidingSides.top = true
           }
         }
       }
-      currentSidesRelativeToCollidingObjectArray.push(sides)
+      currentSidesRelativeToCollidingObjectArray.push(beforeCollidingSides)
       return true
     }
     return false
@@ -85,14 +85,14 @@ export default (state, { x, y }) => {
       }
 
       const currentSidesRelativeToCollidingObject = currentSidesRelativeToCollidingObjectArray[i]
-      if (currentSidesRelativeToCollidingObject.right) {
+      if (currentSidesRelativeToCollidingObject.left) {
         nextPosition.x = objectEdgesPosition.rightX + (playerSize.width / 2)
-      } else if (currentSidesRelativeToCollidingObject.left) {
-        nextPosition.x = objectEdgesPosition.leftX + (playerSize.width / 2)
+      } else if (currentSidesRelativeToCollidingObject.right) {
+        nextPosition.x = objectEdgesPosition.leftX - (playerSize.width / 2)
       }
-      if (currentSidesRelativeToCollidingObject.bottom) {
+      if (currentSidesRelativeToCollidingObject.top) {
         nextPosition.y = objectEdgesPosition.bottomY - playerSize.height
-      } else if (currentSidesRelativeToCollidingObject.topY) {
+      } else if (currentSidesRelativeToCollidingObject.bottom) {
         nextPosition.y = objectEdgesPosition.topY
       }
     })
