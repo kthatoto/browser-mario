@@ -12,6 +12,7 @@
 import { mapGetters } from 'vuex'
 
 import constants from '@/constants'
+import mapReader from '@/logics/mapReader'
 
 export default {
   components: {
@@ -33,6 +34,7 @@ export default {
     document.addEventListener('keydown', this.keydown)
     document.addEventListener('keyup', this.keyup)
     setInterval(() => { this.draw() }, constants.FRAME_RATE)
+    mapReader('map01-01', 0, true)
   },
   methods: {
     keydown (e) {

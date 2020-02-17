@@ -13,5 +13,9 @@ export default {
   },
   SET_PLAYER_MOVEMENT (state, movement) {
     Object.assign(state.player.movement, movement)
+  },
+
+  ADD_BLOCK (state, block) {
+    state.objects.blocks.push(block)
   }
 }

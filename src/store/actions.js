@@ -65,5 +65,9 @@ export default {
   stopPlayerJump ({ commit }) {
     commit('SET_PLAYER_JUMP_STATUS', { timer: 0 })
     commit('SET_PLAYER_STATUS', { jumping: false })
+  },
+
+  addBlock ({ commit }, block) {
+    commit('ADD_BLOCK', block)
   }
 }

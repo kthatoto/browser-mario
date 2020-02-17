@@ -27,27 +27,6 @@ export default {
     events: []
   },
   objects: {
-    blocks: [
-      {
-        component: 'Brick',
-        data: {
-          positionX: 200,
-          positionY: 30,
-          width: constants.GRID_LENGTH,
-          height: constants.GRID_LENGTH,
-          styles: {}
-        }
-      },
-      {
-        component: 'Brick',
-        data: {
-          positionX: 320,
-          positionY: 60,
-          width: constants.GRID_LENGTH,
-          height: constants.GRID_LENGTH,
-          styles: {}
-        }
-      }
-    ]
+    blocks: []
   }
 }
