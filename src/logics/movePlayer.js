@@ -69,7 +69,11 @@ export default (state, { x, y }) => {
     return false
   })
 
-  let land = false
+  const flags = {
+    land: false,
+    hitHead: false,
+    floating: false
+  }
   if (collidingObjects.length > 0) {
     collidingObjects.forEach((collidingObject, i) => {
       const objectPosition = {
@@ -93,17 +97,22 @@ export default (state, { x, y }) => {
       }
       if (currentSidesRelativeToCollidingObject.top) {
         nextPosition.y = objectEdgesPosition.bottomY - playerSize.height
+        flags.hitHead = true
       } else if (currentSidesRelativeToCollidingObject.bottom) {
-        land = true
         nextPosition.y = objectEdgesPosition.topY
+        flags.land = true
       }
     })
   }
-  if (nextPosition.y <= 0) land = true
+  if (nextPosition.y <= 0) {
+    flags.land = true
+    nextPosition.y = 0
+  }
+  if (nextPosition.y < currentPosition.y) flags.floating = true
 
   return {
     x: nextPosition.x - currentPosition.x,
     y: nextPosition.y - currentPosition.y,
-    land
+    ...flags
   }
 }

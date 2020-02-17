@@ -2,7 +2,7 @@ export default {
   MOVE_PLAYER (state, { x, y }) {
     Object.assign(state.player.position, {
       x: state.player.position.x + x,
-      y: Math.max(state.player.position.y + y, 0)
+      y: state.player.position.y + y
     })
   },
   SET_PLAYER_STATUS (state, status) {

@@ -57,7 +57,7 @@ export default {
       const movement = { x: 0, y: -5 }
       if (this.player.status.floating) {
         this.$store.dispatch('decrementPlayerJump')
-        movement.y += Math.max(this.player.jumpStatus.power, 0)
+        movement.y += this.player.jumpStatus.power
       }
       this.$store.dispatch('movePlayer', movement)
     }
