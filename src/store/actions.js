@@ -33,7 +33,7 @@ export default {
   startPlayerJump ({ state, commit }) {
     if (!state.player.status.floating && !state.player.status.jumping) {
       commit('SET_PLAYER_STATUS', { floating: true, jumping: true })
-      commit('SET_PLAYER_JUMP_STATUS', { power: 10, timer: 20 })
+      commit('SET_PLAYER_JUMP_STATUS', { power: 12, timer: 25 })
     }
   },
   decrementPlayerJump ({ state, commit }) {

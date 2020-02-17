@@ -54,7 +54,7 @@ export default {
     },
     draw () {
       this.handleKey()
-      const movement = { x: 0, y: -5 }
+      const movement = { x: 0, y: -8 }
       if (this.player.status.floating) {
         this.$store.dispatch('decrementPlayerJump')
         movement.y += this.player.jumpStatus.power
