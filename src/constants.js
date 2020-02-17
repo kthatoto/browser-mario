@@ -1,4 +1,7 @@
 export default {
   FRAME_RATE: 1000 / 60,
-  GRID_LENGTH: 30
+  GRID_LENGTH: 30,
+  MAX_SPEED: 5,
+  ACCELERATION: 1.08,
+  DECELERATION: 1
 }

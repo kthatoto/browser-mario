@@ -9,6 +9,9 @@ export default {
       jumping: false,
       direction: 'right'
     },
+    movement: {
+      horizontalVelocity: 0
+    },
     size: {
       height: constants.GRID_LENGTH,
       width: constants.GRID_LENGTH

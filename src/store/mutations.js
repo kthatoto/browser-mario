@@ -10,5 +10,8 @@ export default {
   },
   SET_PLAYER_JUMP_STATUS (state, jumpStatus) {
     Object.assign(state.player.jumpStatus, jumpStatus)
+  },
+  SET_PLAYER_MOVEMENT (state, movement) {
+    Object.assign(state.player.movement, movement)
   }
 }

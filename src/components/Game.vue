@@ -4,7 +4,6 @@
   .debugconsole
     p x: {{ player.position.x }}
     p y: {{ player.position.y }}
-    p jumpStatus: {{ player.jumpStatus }}
   .game__objects
     .game__block(v-for="(block, i) in blocks" :key="'block:' + i" :is="block.component" v-bind="block.data" :offsetX="0")
 </template>
@@ -46,19 +45,18 @@ export default {
       if (e.key === ' ') this.$store.dispatch('stopPlayerJump')
     },
     handleKey () {
-      if (this.pressedKeys.includes('ArrowLeft')) this.$store.dispatch('movePlayer', { x: -5, y: 0 })
-      if (this.pressedKeys.includes('ArrowRight')) this.$store.dispatch('movePlayer', { x: +5, y: 0 })
-      if (this.pressedKeys.includes('ArrowDown')) this.$store.dispatch('movePlayer', { x: 0, y: -5 })
-      if (this.pressedKeys.includes('ArrowUp')) this.$store.dispatch('movePlayer', { x: 0, y: +5 })
+      if (this.pressedKeys.includes('ArrowLeft')) this.$store.dispatch('acceleratePlayer', -constants.ACCELERATION)
+      if (this.pressedKeys.includes('ArrowRight')) this.$store.dispatch('acceleratePlayer', constants.ACCELERATION)
       if (this.pressedKeys.includes(' ')) this.$store.dispatch('startPlayerJump')
     },
     draw () {
       this.handleKey()
-      const movement = { x: 0, y: -8 }
+      const movement = { x: this.player.movement.horizontalVelocity, y: -8 }
       if (this.player.status.floating) {
         this.$store.dispatch('decrementPlayerJump')
         movement.y += this.player.jumpStatus.power
       }
+      this.$store.dispatch('decelerationPlayer')
       this.$store.dispatch('movePlayer', movement)
     }
   }

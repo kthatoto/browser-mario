@@ -1,6 +1,25 @@
 import movePlayer from '@/logics/movePlayer'
+import constants from '@/constants'
 
 export default {
+
+  // param(acceleration): Float
+  acceleratePlayer ({ state, commit }, acceleration) {
+    const newVelocity = state.player.movement.horizontalVelocity + acceleration
+    if (acceleration > 0) {
+      commit('SET_PLAYER_MOVEMENT', { horizontalVelocity: Math.min(newVelocity, constants.MAX_SPEED) })
+    } else {
+      commit('SET_PLAYER_MOVEMENT', { horizontalVelocity: Math.max(newVelocity, -constants.MAX_SPEED) })
+    }
+  },
+  decelerationPlayer ({ state, commit }) {
+    const v = state.player.movement.horizontalVelocity
+    if (Math.abs(v) < constants.DECELERATION) {
+      commit('SET_PLAYER_MOVEMENT', { horizontalVelocity: 0 })
+    } else {
+      commit('SET_PLAYER_MOVEMENT', { horizontalVelocity: v + -constants.DECELERATION * Math.sign(v) })
+    }
+  },
 
   // param(x): Integer
   // param(y): Integer
