@@ -31,7 +31,7 @@ f20 mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm mmm
     f20: {
       empty: false,
       componentName: 'Floor',
-      componentType: 'Floor',
+      componentType: 'Block',
       horizontalGridCount: 20,
       styles: {
         // backgroundImage: `url(${require('@/assets/floor.png')})`

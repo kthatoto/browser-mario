@@ -12,7 +12,7 @@ export default async (mapName, offset, objectAdditional) => {
       chipsRow.forEach((chip, gridX) => {
         if (chip === null) return
         const chipMeta = mapData.chipMeta[chip]
-        if (chipMeta.componentType === 'Block') blockHandler(mapData, chip, offset, gridX, gridY)
+        if (chipMeta.componentType === 'Block') blockHandler(mapData.chipMeta[chip], offset, gridX, gridY)
       })
     })
   }
@@ -23,16 +23,17 @@ export default async (mapName, offset, objectAdditional) => {
   }
 }
 
-const blockHandler = (mapData, chip, offset, gridX, gridY) => {
-  const chipMeta = mapData.chipMeta[chip]
+const blockHandler = (chipMeta, offset, gridX, gridY) => {
+  const width = (chipMeta.horizontalGridCount || 1) * constants.GRID_LENGTH
+  const height = (chipMeta.verticalGridCount || 1) * constants.GRID_LENGTH
   store.dispatch('addBlock', {
     component: chipMeta.componentName,
     data: {
       positionX: gridX * constants.GRID_LENGTH,
       positionY: gridY * constants.GRID_LENGTH,
-      width: constants.GRID_LENGTH,
-      height: constants.GRID_LENGTH,
-      styles: chipMeta.styles
+      styles: chipMeta.styles,
+      width,
+      height
     }
   })
 }

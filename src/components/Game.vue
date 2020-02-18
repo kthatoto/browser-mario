@@ -17,7 +17,8 @@ import mapReader from '@/logics/mapReader'
 export default {
   components: {
     Player: () => import('@/components/Player'),
-    Brick: () => import('@/components/blocks/Brick')
+    Brick: () => import('@/components/blocks/Brick'),
+    Floor: () => import('@/components/blocks/Floor')
   },
   computed: {
     ...mapGetters({
