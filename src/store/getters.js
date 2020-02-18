@@ -4,5 +4,8 @@ export default {
   },
   getBlocks (state) {
     return state.objects.blocks
+  },
+  getMap (state) {
+    return state.map
   }
 }

@@ -23,7 +23,8 @@ export default {
   computed: {
     ...mapGetters({
       player: 'getPlayer',
-      blocks: 'getBlocks'
+      blocks: 'getBlocks',
+      map: 'getMap'
     })
   },
   data () {
@@ -31,11 +32,17 @@ export default {
       pressedKeys: []
     }
   },
-  created () {
+  async created () {
     document.addEventListener('keydown', this.keydown)
     document.addEventListener('keyup', this.keyup)
+    const result = await mapReader(constants.INITIAL_CURRENT_MAP_NAME, 0, true)
+    await mapReader(result.nextMapName, result.mapWidth, true)
+    this.$store.dispatch('setMap', {
+      previous: { name: null, offset: null },
+      current: { name: constants.INITIAL_CURRENT_MAP_NAME, offset: 0 },
+      next: { name: result.nextMapName, offset: result.mapWidth }
+    })
     setInterval(() => { this.draw() }, constants.FRAME_RATE)
-    mapReader('map01-01', 0, true)
   },
   methods: {
     keydown (e) {

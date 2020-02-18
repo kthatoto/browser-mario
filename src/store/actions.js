@@ -69,5 +69,9 @@ export default {
 
   addBlock ({ commit }, block) {
     commit('ADD_BLOCK', block)
+  },
+
+  setMap ({ commit }, map) {
+    commit('SET_MAP', map)
   }
 }

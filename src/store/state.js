@@ -26,6 +26,11 @@ export default {
     },
     events: []
   },
+  map: {
+    previous: { name: null, offset: null },
+    current: { name: null, offset: null },
+    next: { name: null, offset: null }
+  },
   objects: {
     blocks: []
   }

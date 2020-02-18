@@ -29,7 +29,7 @@ const blockHandler = (chipMeta, offset, gridX, gridY) => {
   store.dispatch('addBlock', {
     component: chipMeta.componentName,
     data: {
-      positionX: gridX * constants.GRID_LENGTH,
+      positionX: gridX * constants.GRID_LENGTH + offset,
       positionY: gridY * constants.GRID_LENGTH,
       styles: chipMeta.styles,
       width,
