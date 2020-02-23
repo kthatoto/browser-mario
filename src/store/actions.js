@@ -1,4 +1,5 @@
 import movePlayer from '@/logics/movePlayer'
+import mapReader from '@/logics/mapReader'
 import constants from '@/constants'
 
 export default {
@@ -70,8 +71,34 @@ export default {
   addBlock ({ commit }, block) {
     commit('ADD_BLOCK', block)
   },
+  putBlocks ({ commit }, blocks) {
+    commit('PUT_BLOCKS', blocks)
+  },
 
   setMap ({ commit }, map) {
     commit('SET_MAP', map)
+  },
+  async moveToNextMap ({ state, commit }) {
+    if (state.map.previous) {
+      commit('PUT_BLOCKS', state.objects.blocks.filter(b => b.data.mapName !== state.map.previous))
+    }
+    const result = await mapReader(state.map.next.nextName, state.map.next.offset + state.map.next.width, true)
+    commit('SET_MAP', {
+      previous: {
+        name: state.map.current.name,
+        offset: state.map.current.offset,
+        previousName: state.map.previous ? state.map.previous.name : null,
+        width: state.map.current.width
+      },
+      current: { name: state.map.next.name, offset: state.map.next.offset, width: state.map.next.width },
+      next: {
+        name: state.map.next.nextName,
+        offset: state.map.next.offset + state.map.next.width,
+        nextName: result.nextMapName,
+        width: result.mapWidth
+      }
+    })
+  },
+  moveToPreviousMap ({ commit }) {
   }
 }

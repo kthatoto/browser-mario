@@ -18,6 +18,9 @@ export default {
   ADD_BLOCK (state, block) {
     state.objects.blocks.push(block)
   },
+  PUT_BLOCKS (state, blocks) {
+    state.objects.blocks = blocks
+  },
 
   SET_MAP (state, map) {
     Object.assign(state.map, map)

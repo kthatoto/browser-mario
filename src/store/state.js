@@ -18,7 +18,7 @@ export default {
     },
     position: {
       y: 30,
-      x: 400
+      x: 10
     },
     jumpStatus: {
       power: 0,
@@ -27,11 +27,20 @@ export default {
     events: []
   },
   map: {
-    previous: { name: null, offset: null },
-    current: { name: null, offset: null },
-    next: { name: null, offset: null }
+    previous: { name: null, offset: null, previousName: null, width: null },
+    current: { name: null, offset: null, width: null },
+    next: { name: null, offset: null, nextName: null, width: null }
   },
   objects: {
     blocks: []
+    // component: chipMeta.componentName,
+    // data: {
+    //   mapName,
+    //   positionX: gridX * constants.GRID_LENGTH + offset,
+    //   positionY: gridY * constants.GRID_LENGTH,
+    //   styles: chipMeta.styles,
+    //   width,
+    //   height
+    // }
   }
 }

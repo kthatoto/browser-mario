@@ -35,13 +35,7 @@ export default {
   async created () {
     document.addEventListener('keydown', this.keydown)
     document.addEventListener('keyup', this.keyup)
-    const result = await mapReader(constants.INITIAL_CURRENT_MAP_NAME, 0, true)
-    await mapReader(result.nextMapName, result.mapWidth, true)
-    this.$store.dispatch('setMap', {
-      previous: { name: null, offset: null },
-      current: { name: constants.INITIAL_CURRENT_MAP_NAME, offset: 0 },
-      next: { name: result.nextMapName, offset: result.mapWidth }
-    })
+    await this.mapInitialize()
     setInterval(() => { this.draw() }, constants.FRAME_RATE)
   },
   methods: {
@@ -59,6 +53,20 @@ export default {
       if (this.pressedKeys.includes('ArrowRight')) this.$store.dispatch('acceleratePlayer', constants.ACCELERATION)
       if (this.pressedKeys.includes(' ')) this.$store.dispatch('startPlayerJump')
     },
+    async mapInitialize () {
+      const currentResult = await mapReader(constants.INITIAL_CURRENT_MAP_NAME, 0, true)
+      const nextResult = await mapReader(currentResult.nextMapName, currentResult.mapWidth, true)
+      this.$store.dispatch('setMap', {
+        previous: null,
+        current: { name: constants.INITIAL_CURRENT_MAP_NAME, offset: 0, width: currentResult.mapWidth },
+        next: {
+          name: currentResult.nextMapName,
+          offset: currentResult.mapWidth,
+          nextName: nextResult.nextMapName,
+          width: nextResult.mapWidth
+        }
+      })
+    },
     draw () {
       this.handleKey()
       const movement = { x: this.player.movement.horizontalVelocity, y: -8 }
@@ -68,6 +76,11 @@ export default {
       }
       this.$store.dispatch('decelerationPlayer')
       this.$store.dispatch('movePlayer', movement)
+      if (this.player.position.x < this.map.current.offset && this.map.previous) {
+        this.$store.dispatch('moveToPreviousMap')
+      } else if (this.map.next.offset < this.player.position.x && this.map.next.nextName) {
+        this.$store.dispatch('moveToNextMap')
+      }
     }
   }
 }
