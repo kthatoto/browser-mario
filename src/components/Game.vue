@@ -69,13 +69,14 @@ export default {
     },
     draw () {
       this.handleKey()
-      const movement = { x: this.player.movement.horizontalVelocity, y: -8 }
+      const movement = { x: this.player.movement.horizontalVelocity, y: 0 }
       if (this.player.status.floating) {
         this.$store.dispatch('decrementPlayerJump')
         movement.y += this.player.jumpStatus.power
       }
       this.$store.dispatch('decelerationPlayer')
       this.$store.dispatch('movePlayer', movement)
+      this.$store.dispatch('movePlayer', { x: 0, y: -8 })
       if (this.player.position.x < this.map.current.offset && this.map.previous) {
         this.$store.dispatch('moveToPreviousMap')
       } else if (this.map.next.offset < this.player.position.x && this.map.next.nextName) {
