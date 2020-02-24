@@ -54,8 +54,8 @@ export default {
       if (this.pressedKeys.includes(' ')) this.$store.dispatch('startPlayerJump')
     },
     async mapInitialize () {
-      const currentResult = await mapReader(constants.INITIAL_CURRENT_MAP_NAME, 0, true)
-      const nextResult = await mapReader(currentResult.nextMapName, currentResult.mapWidth, true)
+      const currentResult = await mapReader(constants.INITIAL_CURRENT_MAP_NAME, 0, false)
+      const nextResult = await mapReader(currentResult.nextMapName, currentResult.mapWidth, false)
       this.$store.dispatch('setMap', {
         previous: null,
         current: { name: constants.INITIAL_CURRENT_MAP_NAME, offset: 0, width: currentResult.mapWidth },

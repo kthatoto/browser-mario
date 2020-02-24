@@ -1,23 +1,22 @@
 import constants from '@/constants'
 import store from '@/store'
 
-export default async (mapName, offset, objectAdditional) => {
+export default async (mapName, offset, isPrevious) => {
   const mapData = (await import(`@/data/maps/${mapName}`)).default
   const chips = mapData.chips.split('\n')
     .filter(row => row)
     .map(row => row.split(' ').map(col => mapData.chipMeta[col].empty ? null : col))
-  const mapHorizontalGridCount = Math.max.apply(null, chips.map(chipsRow => chipsRow.length))
-  if (objectAdditional) {
-    chips.reverse().forEach((chipsRow, gridY) => {
-      chipsRow.forEach((chip, gridX) => {
-        if (chip === null) return
-        const chipMeta = mapData.chipMeta[chip]
-        if (chipMeta.componentType === 'Block') blockHandler(mapName, mapData.chipMeta[chip], offset, gridX, gridY)
-      })
+  const mapWidth = Math.max.apply(null, chips.map(chipsRow => chipsRow.length)) * constants.GRID_LENGTH
+  const computedOffset = offset - (isPrevious ? mapWidth : 0)
+  chips.reverse().forEach((chipsRow, gridY) => {
+    chipsRow.forEach((chip, gridX) => {
+      if (chip === null) return
+      const chipMeta = mapData.chipMeta[chip]
+      if (chipMeta.componentType === 'Block') blockHandler(mapName, mapData.chipMeta[chip], computedOffset, gridX, gridY)
     })
-  }
+  })
   return {
-    mapWidth: mapHorizontalGridCount * constants.GRID_LENGTH,
+    mapWidth,
     previousMapName: mapData.previousMapName,
     nextMapName: mapData.nextMapName
   }

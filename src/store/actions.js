@@ -90,7 +90,7 @@ export default {
     }
     const current = { name: state.map.next.name, offset: state.map.next.offset, width: state.map.next.width }
     if (state.map.next.nextName) {
-      const result = await mapReader(state.map.next.nextName, state.map.next.offset + state.map.next.width, true)
+      const result = await mapReader(state.map.next.nextName, state.map.next.offset + state.map.next.width, false)
       const next = {
         name: state.map.next.nextName,
         offset: state.map.next.offset + state.map.next.width,
@@ -114,7 +114,7 @@ export default {
     }
     const current = { name: state.map.previous.name, offset: state.map.previous.offset, width: state.map.previous.width }
     if (state.map.previous.previousName) {
-      const result = await mapReader(state.map.previous.previousName, state.map.next.offset + state.map.next.width, true)
+      const result = await mapReader(state.map.previous.previousName, state.map.previous.offset, true)
       const previous = {
         name: state.map.previous.previousName,
         offset: state.map.previous.offset - result.mapWidth,
