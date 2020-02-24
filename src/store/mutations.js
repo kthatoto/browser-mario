@@ -19,7 +19,7 @@ export default {
     state.objects.blocks.push(block)
   },
   PUT_BLOCKS (state, blocks) {
-    state.objects.blocks = blocks
+    state.objects.blocks.splice(0, state.objects.blocks.length, ...blocks)
   },
 
   SET_MAP (state, map) {

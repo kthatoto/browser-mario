@@ -80,25 +80,50 @@ export default {
   },
   async moveToNextMap ({ state, commit }) {
     if (state.map.previous) {
-      commit('PUT_BLOCKS', state.objects.blocks.filter(b => b.data.mapName !== state.map.previous))
+      commit('PUT_BLOCKS', state.objects.blocks.filter(b => b.data.mapName !== state.map.previous.name))
     }
-    const result = await mapReader(state.map.next.nextName, state.map.next.offset + state.map.next.width, true)
-    commit('SET_MAP', {
-      previous: {
-        name: state.map.current.name,
-        offset: state.map.current.offset,
-        previousName: state.map.previous ? state.map.previous.name : null,
-        width: state.map.current.width
-      },
-      current: { name: state.map.next.name, offset: state.map.next.offset, width: state.map.next.width },
-      next: {
+    const previous = {
+      name: state.map.current.name,
+      offset: state.map.current.offset,
+      previousName: state.map.previous ? state.map.previous.name : null,
+      width: state.map.current.width
+    }
+    const current = { name: state.map.next.name, offset: state.map.next.offset, width: state.map.next.width }
+    if (state.map.next.nextName) {
+      const result = await mapReader(state.map.next.nextName, state.map.next.offset + state.map.next.width, true)
+      const next = {
         name: state.map.next.nextName,
         offset: state.map.next.offset + state.map.next.width,
         nextName: result.nextMapName,
         width: result.mapWidth
       }
-    })
+      commit('SET_MAP', { previous, current, next })
+    } else {
+      commit('SET_MAP', { previous, current, next: null })
+    }
   },
-  moveToPreviousMap ({ commit }) {
+  async moveToPreviousMap ({ state, commit }) {
+    if (state.map.next) {
+      commit('PUT_BLOCKS', state.objects.blocks.filter(b => b.data.mapName !== state.map.next.name))
+    }
+    const next = {
+      name: state.map.current.name,
+      offset: state.map.current.offset,
+      nextName: state.map.next ? state.map.next.name : null,
+      width: state.map.current.width
+    }
+    const current = { name: state.map.previous.name, offset: state.map.previous.offset, width: state.map.previous.width }
+    if (state.map.previous.previousName) {
+      const result = await mapReader(state.map.previous.previousName, state.map.next.offset + state.map.next.width, true)
+      const previous = {
+        name: state.map.previous.previousName,
+        offset: state.map.previous.offset - result.mapWidth,
+        previousName: result.previousMapName,
+        width: result.mapWidth
+      }
+      commit('SET_MAP', { previous, current, next })
+    } else {
+      commit('SET_MAP', { previous: null, current, next })
+    }
   }
 }

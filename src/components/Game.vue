@@ -77,9 +77,9 @@ export default {
       this.$store.dispatch('decelerationPlayer')
       this.$store.dispatch('movePlayer', movement)
       this.$store.dispatch('movePlayer', { x: 0, y: -8 })
-      if (this.player.position.x < this.map.current.offset && this.map.previous) {
+      if (this.map.previous && this.player.position.x < this.map.current.offset) {
         this.$store.dispatch('moveToPreviousMap')
-      } else if (this.map.next.offset < this.player.position.x && this.map.next.nextName) {
+      } else if (this.map.next && this.map.next.offset < this.player.position.x) {
         this.$store.dispatch('moveToNextMap')
       }
     }
